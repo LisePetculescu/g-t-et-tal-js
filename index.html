@@ -7,19 +7,25 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Computeren gætter dit tal! 😄</h1>
+    <main>
+      <h1>Computeren gætter dit tal! 😄</h1>
+    </main>
 
-    <h3>Vælg et tal mellem 1 - 99</h3>
+    <section id="start-menu">
+        <h3>Vælg et tal mellem 1 - 100</h3>
 
-    <form id="guess">
-      <p id="guess-text">Gættet er: 50</p>
-      <button type="submit" id="high-btn">Gæt lavere 👇🏼</button>
-      <button type="submit" id="low-btn">Gæt højere ☝🏼</button>
+        <button type="submit" id="start-game-btn">Start spillet</button>
+    </section>
+
+    <section id="game-buttons">
+      <p id="guess-text"></p>
+
+      <button type="submit" id="guess-lower-btn">Gæt lavere 👇🏼</button>
+      <button type="submit" id="guess-higher-btn">Gæt højere ☝🏼</button>
       <button type="submit" id="correct-btn">Korrekt! 🎉</button>
 
-    </form>
-
-    <ol id="guesses" reversed></ol>
+      <ol id="guesses" reversed></ol>
+    </section>
 
     <script src="script.js"></script>
   </body>
