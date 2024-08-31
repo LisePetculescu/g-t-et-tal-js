@@ -1,7 +1,7 @@
 window.addEventListener("load", start);
 
 let secret;
-// let guess;
+
 const resultList = document.querySelector("#guesses");
 
 function start() {
