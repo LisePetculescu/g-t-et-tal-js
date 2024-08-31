@@ -2,10 +2,14 @@ window.addEventListener("load", start);
 
 let guess;
 let lastGuess;
+let attempts = 0;
+let showAttempts;
 const resultList = document.querySelector("#guesses");
 
 function start() {
   console.log("JS kører!");
+
+  showAttempts = document.querySelector("#attempts-display");
 
   document.querySelector("#start-game-btn").addEventListener("click", startGame);
 }
@@ -15,6 +19,8 @@ function startGame(event) {
   console.log("Spillet er i gang!");
 
   resultList.innerHTML = "";
+  attempts = 0;
+  updateAttemps();
 
   makeNewGuess();
 
@@ -58,6 +64,8 @@ function gameWon() {
   console.log("Winner! - Let's start again");
 
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`);
+
+  removeEventListeners();
 }
 
 function outputAnswer(message) {
@@ -67,7 +75,13 @@ function outputAnswer(message) {
 function makeNewGuess() {
   guess = Math.floor(Math.random() * 100 + 1);
   lastGuess = guess;
+  attempts++;
+  updateAttemps();
   outputAnswer(`Jeg gætter på ${guess}`);
+}
+
+function updateAttemps() {
+  showAttempts.textContent = `Forsøg: ${attempts}`
 }
 
 function removeEventListeners() {
