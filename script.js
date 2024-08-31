@@ -1,10 +1,8 @@
 window.addEventListener("load", start);
 
 let guess;
-const resultList = document.querySelector("#guesses");
 let lastGuess;
-let lastReponse;
-let lastGuessText;
+const resultList = document.querySelector("#guesses");
 
 function start() {
   console.log("JS kører!");
@@ -20,66 +18,46 @@ function startGame(event) {
 
   makeNewGuess();
 
-  document.querySelector("#guess-higher-btn").addEventListener("click", getResponse);
-  document.querySelector("#guess-lower-btn").addEventListener("click", getResponse);
-  document.querySelector("#correct-btn").addEventListener("click", getResponse);
+  removeEventListeners();
+
+  document.querySelector("#guess-higher-btn").addEventListener("click", guessHigher);
+  document.querySelector("#guess-lower-btn").addEventListener("click", guessLower);
+  document.querySelector("#correct-btn").addEventListener("click", gameWon);
 }
 
-function getResponse(event) {
-  event.preventDefault();
+function getLastGuessElement() {
+  return resultList.querySelector("li:first-child");
+}
 
-  const btn = event.target.id;
-  console.log("Button pressed: " + btn);
+function updateLastGuess(message) {
+  const lastGuessElement = getLastGuessElement();
 
-  if (btn === "guess-higher-btn") {
-    guessHigher();
-  }
-  if (btn === "guess-lower-btn") {
-    guessLower();
-  }
-  if (btn === "correct-btn") {
-    gameWon();
+  if (lastGuessElement) {
+    lastGuessElement.textContent = message;
+  } else {
+    console.error("error happened when trying to update last guess");
+    startGame();
   }
 }
 
 function guessHigher() {
   console.log("Guess higher pls");
 
-  lastGuessText = resultList.querySelector("li:first-child");
-
-  if (lastGuessText) {
-    lastGuessText.textContent = `Jeg gættede på ${lastGuess} - Jeg gættede for lavt 🤥`;
-    makeNewGuess();
-  } else {
-    console.error("hihi somethinhg went wrong when you pressed 'gæt højere' ");
-    startGame();
-  }
+  updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede for lavt 🤥`);
+  makeNewGuess();
 }
 
 function guessLower() {
   console.log("Guess lower pls");
 
-  lastGuessText = resultList.querySelector("li:first-child");
-
-  if (lastGuessText) {
-    lastGuessText.textContent = `Jeg gættede på ${lastGuess} - Jeg gættede for højt 🤯`;
-    makeNewGuess();
-  } else {
-    console.error("hihi somethinhg went wrong when you pressed 'gæt lavere' ");
-    startGame();
-  }
+  updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede for højt 🤯`);
+  makeNewGuess();
 }
 
 function gameWon() {
   console.log("Winner! - Let's start again");
 
-  lastGuessText = resultList.querySelector("li:first-child");
-
-  if (lastGuessText) {
-    lastGuessText.textContent = `Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`;
-  } else {
-    console.error("hihi somethinhg went wrong when you pressed 'Korrekt' ");
-  }
+  updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`);
 }
 
 function outputAnswer(message) {
@@ -90,4 +68,10 @@ function makeNewGuess() {
   guess = Math.floor(Math.random() * 100 + 1);
   lastGuess = guess;
   outputAnswer(`Jeg gætter på ${guess}`);
+}
+
+function removeEventListeners() {
+  document.querySelector("#guess-higher-btn").removeEventListener("click", guessHigher);
+  document.querySelector("#guess-lower-btn").removeEventListener("click", guessLower);
+  document.querySelector("#correct-btn").removeEventListener("click", gameWon);
 }
