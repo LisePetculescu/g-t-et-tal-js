@@ -36,7 +36,7 @@ function getGuess(event) {
     outputAnswer(`Du gættede på ${guess} - Det var for højt`);
   }
   if (comp == 0) {
-    outputAnswer(`Du gættede RIGTIGT! 😁`);
+    outputAnswer(`Du gættede på ${guess} - Det er RIGTIGT! 😁`);
   }
 }
 
