@@ -5,18 +5,22 @@ let lastGuess;
 let attempts = 0;
 let showAttempts;
 const resultList = document.querySelector("#guesses");
+let startGameButton;
 
 function start() {
   console.log("JS kører!");
 
   showAttempts = document.querySelector("#attempts-display");
 
-  document.querySelector("#start-game-btn").addEventListener("click", startGame);
+  startGameButton = document.querySelector("#start-game-btn");
+  startGameButton.addEventListener("click", startGame);
 }
 
 function startGame(event) {
   event.preventDefault();
   console.log("Spillet er i gang!");
+
+  startGameButton.textContent = "Start spillet";
 
   resultList.innerHTML = "";
   attempts = 0;
@@ -66,6 +70,8 @@ function gameWon() {
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`);
 
   removeEventListeners();
+
+  startGameButton.textContent = "Start spillet forfra";
 }
 
 function outputAnswer(message) {
