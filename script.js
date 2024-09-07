@@ -1,46 +1,33 @@
 window.addEventListener("load", start);
 
-let guess;
-let lastGuess;
-let attempts = 0;
-let showAttempts;
+let secret;
+
 const resultList = document.querySelector("#guesses");
-let startGameButton;
 
 function start() {
   console.log("JS kører!");
 
-  showAttempts = document.querySelector("#attempts-display");
-
-  startGameButton = document.querySelector("#start-game-btn");
-  startGameButton.addEventListener("click", startGame);
+  createRandomNumber();
+  document.querySelector("#guess").addEventListener("submit", getGuess);
 }
 
-function startGame(event) {
+function createRandomNumber() {
+  secret = Math.floor(Math.random() * 100);
+
+  console.log("the secret number is: " + secret);
+
+  return secret;
+}
+
+function getGuess(event) {
   event.preventDefault();
-  console.log("Spillet er i gang!");
 
-  startGameButton.textContent = "Start spillet";
+  const form = event.target;
 
-  resultList.innerHTML = "";
-  attempts = 0;
-  updateAttemps();
+  const guess = form.guess.valueAsNumber;
+  console.log("The guess is " + guess);
 
-  makeNewGuess();
-
-  removeEventListeners();
-
-  document.querySelector("#guess-higher-btn").addEventListener("click", guessHigher);
-  document.querySelector("#guess-lower-btn").addEventListener("click", guessLower);
-  document.querySelector("#correct-btn").addEventListener("click", gameWon);
-}
-
-function getLastGuessElement() {
-  return resultList.querySelector("li:first-child");
-}
-
-function updateLastGuess(message) {
-  const lastGuessElement = getLastGuessElement();
+  const comp = compareNumbers(guess, secret);
 
   if (comp < 0) {
     outputAnswer(`Du gættede på ${guess} - Det var for lavt`);
@@ -53,34 +40,18 @@ function updateLastGuess(message) {
   }
 }
 
-function gameWon() {
-  console.log("Winner! - Let's start again");
+function compareNumbers(guess, secret) {
+  // -1 --> for lavt
+  // 0 --> korrekt
+  // 1 --> for højt
 
-  updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`);
+  // if (guess > secret) return 1
+  // if (guess < secret) return -1
+  // if (guess == secret) return 0
 
-  removeEventListeners();
-
-  startGameButton.textContent = "Start spillet forfra";
+  return guess - secret;
 }
 
 function outputAnswer(message) {
   resultList.insertAdjacentHTML("afterbegin", `<li>${message}</li>`);
-}
-
-function makeNewGuess() {
-  guess = Math.floor(Math.random() * 100 + 1);
-  lastGuess = guess;
-  attempts++;
-  updateAttemps();
-  outputAnswer(`Jeg gætter på ${guess}`);
-}
-
-function updateAttemps() {
-  showAttempts.textContent = `Forsøg: ${attempts}`
-}
-
-function removeEventListeners() {
-  document.querySelector("#guess-higher-btn").removeEventListener("click", guessHigher);
-  document.querySelector("#guess-lower-btn").removeEventListener("click", guessLower);
-  document.querySelector("#correct-btn").removeEventListener("click", gameWon);
 }
