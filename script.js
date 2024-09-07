@@ -99,7 +99,7 @@ function makeNewGuess() {
     const offset = Math.floor(Math.random() * ((max - min) * 0.2)) - (max - min) * 0.1;
     guess = Math.floor((max + min) / 2 + offset);
 
-    // ensuring the guess doesn't exceed the max and min 
+    // ensuring the guess doesn't exceed the max and min
     guess = Math.max(min, Math.min(max, guess));
 
     lastGuess = guess;
@@ -119,11 +119,11 @@ function updateAttemps() {
 }
 
 function getCommentForAttempts(attempts) {
-  if (attempts === 3) {
+  if (attempts <= 3) {
     return "Fantastisk! 🎉";
-  } else if (attempts === 5) {
+  } else if (attempts <= 5) {
     return "Godt gået! 👍";
-  } else if (attempts === 7) {
+  } else if (attempts <= 7) {
     return "Meh... 😐";
   } else if (attempts > 7) {
     return "Det kunne have været bedre. 😔";
