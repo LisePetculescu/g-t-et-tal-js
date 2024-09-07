@@ -4,6 +4,7 @@ let guess;
 let lastGuess;
 let attempts = 0;
 let showAttempts;
+let showAttemptsMessage;
 const resultList = document.querySelector("#guesses");
 let startGameButton;
 let min = 1;
@@ -13,6 +14,7 @@ function start() {
   console.log("JS kører!");
 
   showAttempts = document.querySelector("#attempts-display");
+  showAttemptsMessage = document.querySelector("#attempts-message");
 
   startGameButton = document.querySelector("#start-game-btn");
   startGameButton.addEventListener("click", startGame);
@@ -23,16 +25,20 @@ function startGame(event) {
   console.log("Spillet er i gang!");
 
   startGameButton.textContent = "Start spillet";
+  showAttemptsMessage.textContent = "";
 
   resultList.innerHTML = "";
+
   attempts = 0;
   min = 1;
   max = 100;
   updateAttemps();
 
-  makeNewGuess(); // Make the initial guess
+  makeNewGuess();
 
-  removeEventListeners();
+  addEventListeners()
+
+
 
   document.querySelector("#guess-higher-btn").addEventListener("click", guessHigher);
   document.querySelector("#guess-lower-btn").addEventListener("click", guessLower);
@@ -58,7 +64,7 @@ function guessHigher() {
   console.log("Guess higher pls");
 
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede for lavt 🤥`);
-  min = guess + 1; 
+  min = guess + 1;
   makeNewGuess();
 }
 
@@ -72,8 +78,11 @@ function guessLower() {
 
 function gameWon() {
   console.log("Winner! - Let's start again");
+  const comment = getCommentForAttempts(attempts);
 
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede korrekt! 🤩🤩`);
+
+  showAttemptsMessage.textContent = `Antal forsøg: ${attempts} - ${comment}`;
 
   removeEventListeners();
 
@@ -103,8 +112,46 @@ function updateAttemps() {
   showAttempts.textContent = `Forsøg: ${attempts}`;
 }
 
+function getCommentForAttempts(attempts) {
+  if (attempts === 3) {
+    return "Fantastisk! 🎉";
+  } else if (attempts === 5) {
+    return "Godt gået! 👍";
+  } else if (attempts === 7) {
+    return "Meh... 😐";
+  } else if (attempts > 7) {
+    return "Det kunne have været bedre. 😔";
+  } else {
+    return "";
+  }
+}
+
 function removeEventListeners() {
-  document.querySelector("#guess-higher-btn").removeEventListener("click", guessHigher);
-  document.querySelector("#guess-lower-btn").removeEventListener("click", guessLower);
-  document.querySelector("#correct-btn").removeEventListener("click", gameWon);
+  const guessHigherBtn = document.querySelector("#guess-higher-btn");
+  const guessLowerBtn = document.querySelector("#guess-lower-btn");
+  const correctBtn = document.querySelector("#correct-btn");
+
+  guessHigherBtn.removeEventListener("click", guessHigher);
+  guessLowerBtn.removeEventListener("click", guessLower);
+  correctBtn.removeEventListener("click", gameWon);
+
+
+  guessHigherBtn.classList.add("disabled-button");
+  guessLowerBtn.classList.add("disabled-button");
+  correctBtn.classList.add("disabled-button");
+}
+
+function addEventListeners() {
+  const guessHigherBtn = document.querySelector("#guess-higher-btn");
+  const guessLowerBtn = document.querySelector("#guess-lower-btn");
+  const correctBtn = document.querySelector("#correct-btn");
+
+  guessHigherBtn.addEventListener("click", guessHigher);
+  guessLowerBtn.addEventListener("click", guessLower);
+  correctBtn.addEventListener("click", gameWon);
+
+
+  guessHigherBtn.classList.remove("disabled-button");
+  guessLowerBtn.classList.remove("disabled-button");
+  correctBtn.classList.remove("disabled-button");
 }

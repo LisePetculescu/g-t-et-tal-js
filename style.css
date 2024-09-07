@@ -19,3 +19,10 @@ button {
 button:hover {
 background-color: rgb(253, 214, 221);
 }
+
+.disabled-button {
+  background-color: #d3d3d3; /* Light grey */
+  color: #a9a9a9; /* Darker grey */
+  cursor: not-allowed;
+  border: 1px solid #a9a9a9;
+}
