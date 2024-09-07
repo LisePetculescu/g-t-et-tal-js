@@ -36,9 +36,7 @@ function startGame(event) {
 
   makeNewGuess();
 
-  addEventListeners()
-
-
+  addEventListeners();
 
   document.querySelector("#guess-higher-btn").addEventListener("click", guessHigher);
   document.querySelector("#guess-lower-btn").addEventListener("click", guessLower);
@@ -95,7 +93,15 @@ function outputAnswer(message) {
 
 function makeNewGuess() {
   if (min <= max) {
-    guess = Math.floor((max + min) / 2);
+    // guess = Math.floor((max + min) / 2);
+
+    // add ding some randomness ish fluff
+    const offset = Math.floor(Math.random() * ((max - min) * 0.2)) - (max - min) * 0.1;
+    guess = Math.floor((max + min) / 2 + offset);
+
+    // ensuring the guess doesn't exceed the max and min 
+    guess = Math.max(min, Math.min(max, guess));
+
     lastGuess = guess;
     attempts++;
     updateAttemps();
@@ -135,7 +141,6 @@ function removeEventListeners() {
   guessLowerBtn.removeEventListener("click", guessLower);
   correctBtn.removeEventListener("click", gameWon);
 
-
   guessHigherBtn.classList.add("disabled-button");
   guessLowerBtn.classList.add("disabled-button");
   correctBtn.classList.add("disabled-button");
@@ -149,7 +154,6 @@ function addEventListeners() {
   guessHigherBtn.addEventListener("click", guessHigher);
   guessLowerBtn.addEventListener("click", guessLower);
   correctBtn.addEventListener("click", gameWon);
-
 
   guessHigherBtn.classList.remove("disabled-button");
   guessLowerBtn.classList.remove("disabled-button");
