@@ -6,6 +6,8 @@ let attempts = 0;
 let showAttempts;
 const resultList = document.querySelector("#guesses");
 let startGameButton;
+let min = 1;
+let max = 100;
 
 function start() {
   console.log("JS kører!");
@@ -24,9 +26,11 @@ function startGame(event) {
 
   resultList.innerHTML = "";
   attempts = 0;
+  min = 1;
+  max = 100;
   updateAttemps();
 
-  makeNewGuess();
+  makeNewGuess(); // Make the initial guess
 
   removeEventListeners();
 
@@ -45,7 +49,7 @@ function updateLastGuess(message) {
   if (lastGuessElement) {
     lastGuessElement.textContent = message;
   } else {
-    console.error("error happened when trying to update last guess");
+    console.error("Error happened when trying to update last guess");
     startGame();
   }
 }
@@ -54,6 +58,7 @@ function guessHigher() {
   console.log("Guess higher pls");
 
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede for lavt 🤥`);
+  min = guess + 1; 
   makeNewGuess();
 }
 
@@ -61,6 +66,7 @@ function guessLower() {
   console.log("Guess lower pls");
 
   updateLastGuess(`Jeg gættede på ${lastGuess} - Jeg gættede for højt 🤯`);
+  max = guess - 1;
   makeNewGuess();
 }
 
@@ -79,15 +85,22 @@ function outputAnswer(message) {
 }
 
 function makeNewGuess() {
-  guess = Math.floor(Math.random() * 100 + 1);
-  lastGuess = guess;
-  attempts++;
-  updateAttemps();
-  outputAnswer(`Jeg gætter på ${guess}`);
+  if (min <= max) {
+    guess = Math.floor((max + min) / 2);
+    lastGuess = guess;
+    attempts++;
+    updateAttemps();
+    outputAnswer(`Jeg gætter på ${guess}`);
+  } else {
+    updateLastGuess(`Jeg gættede på ${lastGuess} - Der er ikke flere gæt 😶`);
+    startGameButton.textContent = "Start spillet forfra";
+    removeEventListeners();
+    console.error("The search range is invalid.");
+  }
 }
 
 function updateAttemps() {
-  showAttempts.textContent = `Forsøg: ${attempts}`
+  showAttempts.textContent = `Forsøg: ${attempts}`;
 }
 
 function removeEventListeners() {
