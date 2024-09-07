@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=100, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=100, initial-scale=1.0" />
     <title>Gæt et tal</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Velkommen til gæt et tal! 😄</h1>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Computeren gætter dit tal! 😄</h1>
+    </main>
 
-    <h3>Gæt et tal mellem 1 - 99</h3>
+    <section id="start-menu">
+        <h3>Vælg et tal mellem 1 - 100</h3>
 
-    <form id="guess">
-    <input type="number" id="" name="guess" placeholder="Skriv et tal">
-    <button type="submit" id="guess-btn">Gæt</button>
-    </form>
+        <button type="submit" id="start-game-btn">Start spillet</button>
 
-    <ol id="guesses" reversed></ol>
+        <p id="attempts-display">Forsøg: 0</p>
+    </section>
 
+    <section id="game-buttons">
+      <p id="guess-text"></p>
 
+      <button type="submit" id="guess-lower-btn">Gæt lavere 👇🏼</button>
+      <button type="submit" id="guess-higher-btn">Gæt højere ☝🏼</button>
+      <button type="submit" id="correct-btn">Korrekt! 🎉</button>
 
-    <script src="script.js"></script> 
-</body>
+      <ol id="guesses" reversed></ol>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
 </html>
